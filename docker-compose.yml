@@ -1,0 +1,28 @@
+services:
+  backend:
+    build: ./backend
+    container_name: campus_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      # Persistir sqlite afuera del contenedor:
+      - ./backend/db.sqlite3:/app/db.sqlite3
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: campus_frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      # evita que el bind mount pise node_modules del contenedor
+      - /app/node_modules
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8000
+    depends_on:
+      - backend
+    restart: unless-stopped
