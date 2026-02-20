@@ -1,6 +1,6 @@
 import { Navbar } from "./Navbar";
 
-export function Layout({ children }) {
+export function AppLayout({ children }) {
   return (
     <div style={{ minHeight: "100vh", background: "#fafafa" }}>
       <Navbar />
